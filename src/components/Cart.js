@@ -6,6 +6,8 @@ const Cart = ({cart, products}) => {
     return total + (product.price * quantity)
   }, 0);
 
+  total = Math.round(total * 100) / 100;
+
   return (
     <div className="cart">
       <h2>Your Cart</h2>
