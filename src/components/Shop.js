@@ -6,19 +6,24 @@ import AddForm from './AddForm.js';
 
 class Shop extends Component {
   state = {
-    products: []
+    products: [],
+    cart: [],
   };
 
   componentDidMount() {
     this.setState({
       products: products,
+      cart: [{productId: 1, quantity: 4}],
     });
   }
 
   render() {
     return (
       <div id="app">
-        <Header />
+        <Header
+          cart={this.state.cart}
+          products={this.state.products}
+        />
 
         <main>
           <ProductList products={this.state.products} />
