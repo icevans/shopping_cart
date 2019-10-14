@@ -10,10 +10,28 @@ class Shop extends Component {
     cart: [],
   };
 
+  addToCart = (productId) => {
+    const itemInCart = this.state.cart.find(item => {
+      item.productId === productId
+    });
+
+    if (itemInCart) {
+      const newCart = cart.map(item => {
+        if (item === itemInCart) {
+          /
+        } else {
+
+        }
+      });
+      this.setState(newCart);
+    } else {
+    }
+  }
+
   componentDidMount() {
     this.setState({
       products: products,
-      cart: [{productId: 1, quantity: 4}],
+      cart: [{productId: 1, quantity: 3}],
     });
   }
 
