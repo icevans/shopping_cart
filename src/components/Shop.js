@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import products from '../lib/data.js';
+
 import Header from './Header.js';
 import ProductList from './ProductList.js';
-import AddForm from './AddForm.js';
+import ToggleableProductForm from './ToggleableProductForm.js';
+import ProductForm from './ProductForm.js';
+
+import client from '../lib/client.js';
 
 class Shop extends Component {
   state = {
@@ -26,24 +29,66 @@ class Shop extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      products: products,
-      cart: [{productId: 1, quantity: 3}],
-    });
+  async componentDidMount() {
+    try {
+      let products = await client.get('/api/products');
+
+      this.setState({
+        products: products,
+      });
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
+    }
   }
+
+  handleAddProduct = async (product) => {
+    try {
+      let newProduct = await client.post('/api/products', product);
+
+      this.setState({
+        products: [...this.state.products, newProduct]
+      });
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
+    }
+  }
+
+  handleEditProduct = async (id, product) => {
+    try {
+      let updatedProduct = await client.put(`/api/products/${id}`, product);
+
+      let updatedProducts = this.state.products.map((product) => {
+        if (product.id === id) {
+          return updatedProduct;
+        } else {
+          return product;
+        }
+      });
+
+      this.setState({ products: updatedProducts });
+
+      setTimeout(() => {
+        console.log(this.state.products);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
+    }
+  }
+
 
   render() {
     return (
       <div id="app">
-        <Header
-          cart={this.state.cart}
-          products={this.state.products}
-        />
+        <Header cart={this.state.cart} products={this.state.products} />
 
         <main>
-          <ProductList products={this.state.products} />
-          <AddForm />
+          <ProductList products={this.state.products} handleEditProduct={this.handleEditProduct} />
+
+          <ToggleableProductForm onSubmit={this.handleAddProduct} />
         </main>
       </div>
     );

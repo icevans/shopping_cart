@@ -1,14 +1,15 @@
 import React from 'react';
-import Product from './Product';
+import ToggleableProduct from './ToggleableProduct';
 
 const ProductList = (props) => {
   return (
     <div className="product-listing">
       <h2>Products</h2>
       {props.products.map(product => (
-        <Product
+        <ToggleableProduct
           key={product.id}
           product={product}
+          handleEditProduct={props.handleEditProduct}
         />
       ))}
     </div>
