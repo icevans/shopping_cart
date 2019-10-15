@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Header from './Header.js';
 import ProductList from './ProductList.js';
 import ToggleableProductForm from './ToggleableProductForm.js';
-import ProductForm from './ProductForm.js';
 
 import client from '../lib/client.js';
 
@@ -15,15 +14,11 @@ class Shop extends Component {
 
   addToCart = (productId) => { // TODO
     const itemInCart = this.state.cart.find(item => {
-      item.productId === productId
+      return item.productId === productId
     });
 
     if (itemInCart) {
-      const newCart = this.state.cart.map(item => {
-        if (item === itemInCart) {
-        } else {
-        }
-      });
+      const newCart = this.state.cart.map(item => (item));
       this.setState(newCart);
     } else {
     }
