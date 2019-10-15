@@ -68,11 +68,6 @@ class Shop extends Component {
       });
 
       this.setState({ products: updatedProducts });
-
-      setTimeout(() => {
-        console.log(this.state.products);
-      }, 1000);
-
     } catch (error) {
       console.error('Something went wrong!');
       console.error(error);

@@ -7,17 +7,35 @@ const ProductForm = (props) => {
       <form onSubmit={props.handleSubmit}>
         <div className="input-group">
           <label htmlFor="product-name">Product Name</label>
-          <input type="text" name="title" id="product-name" value={props.title} onChange={props.onInputChange}/>
+          <input
+            type="text"
+            name="title"
+            id="product-name"
+            value={props.title}
+            onChange={props.onInputChange}
+          />
         </div>
 
         <div className="input-group">
           <label htmlFor="product-price">Price</label>
-          <input type="text" name="price" id="product-price" value={props.price} onChange={props.onInputChange}/>
+          <input
+            type="text"
+            name="price"
+            id="product-price"
+            value={props.price}
+            onChange={props.onInputChange}
+          />
         </div>
 
         <div className="input-group">
           <label htmlFor="product-quantity">Quantity</label>
-          <input type="text" name="quantity" id="product-quantity" value={props.quantity} onChange={props.onInputChange}/>
+          <input
+            type="text"
+            name="quantity"
+            id="product-quantity"
+            value={props.quantity}
+            onChange={props.onInputChange}
+          />
         </div>
 
         <div className="actions form-actions">
