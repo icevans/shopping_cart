@@ -27,4 +27,23 @@ describe('ProductForm', () => {
 
     expect(onInputChange.mock.calls.length).toEqual(1);
   });
+
+  it('calls onSubmit when add is clicked', () => {
+    const onSubmit = jest.fn();
+    const wrapper = shallow(<ProductForm onSubmit={ onSubmit }/>);
+    const addButton = wrapper.find(`a.submit-button`);
+    addButton.simulate('click')
+
+    expect(onSubmit.mock.calls.length).toEqual(1);
+  });
+
+  it('calls onCancel when add is clicked', () => {
+    const onCancel = jest.fn();
+    const wrapper = shallow(<ProductForm onCancel={ onCancel }/>);
+    const cancelButton = wrapper.find(`a.cancel-button`);
+    cancelButton.simulate('click')
+
+    expect(onCancel.mock.calls.length).toEqual(1);
+  });
+
 });

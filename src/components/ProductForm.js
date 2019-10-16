@@ -37,10 +37,10 @@ const ProductForm = props => {
       </div>
 
       <div className="actions form-actions">
-        <a className="button" onClick={props.onSubmit}>
+        <a className="button submit-button" onClick={props.onSubmit}>
           {props.isEdit ? "Update" : "Add"}
         </a>
-        <a className="button" onClick={props.onCancel}>
+        <a className="button cancel-button" onClick={props.onCancel}>
           Cancel
         </a>
       </div>
