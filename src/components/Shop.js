@@ -76,7 +76,7 @@ class Shop extends Component {
         <Header cart={this.state.cart} products={this.state.products} />
 
         <main>
-          <ProductList products={this.state.products} handleEditProduct={this.handleEditProduct} />
+          <ProductList products={this.state.products} onEditProduct={this.handleEditProduct} />
 
           <ToggleableProductForm onSubmit={this.handleAddProduct} />
         </main>

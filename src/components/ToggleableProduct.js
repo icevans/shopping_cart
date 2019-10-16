@@ -1,14 +1,9 @@
 import React from 'react';
-
-import Product from './Product'
-import ProductForm from './ProductForm'
+import EditProductForm from './EditProductForm';
 
 class ToggleableProduct extends React.Component {
   state = {
     productFormVisible: false,
-    title: this.props.product.title,
-    price: this.props.product.price,
-    quantity: this.props.product.quantity,
   };
 
   handleEditToggle = (evt) => {
@@ -19,43 +14,41 @@ class ToggleableProduct extends React.Component {
     });
   };
 
-  handleEditSubmit = (evt) => {
-    evt.preventDefault();
-    this.props.handleEditProduct(this.props.product.id, {
-      title: this.state.title,
-      price: this.state.price,
-      quantity: this.state.quantity,
-    });
-    this.setState({ productFormVisible: false });
-  };
-
-  handleInputChange = (evt) => {
-    let fieldName = evt.target.name;
-    let fieldValue = evt.target.value;
-
-    this.setState({ [fieldName]: fieldValue });
-  };
-
   render() {
+    const { product } = this.props;
     return (
       <div className="product">
-        <Product
-          title={this.props.product.title}
-          price={this.props.product.price}
-          quantity={this.props.product.quantity}
-          onEditToggle={this.handleEditToggle}
-        />
+        <div className="product-details">
+          <h3>{product.title}</h3>
+          <p className="price">${product.price}</p>
+          <p className={"quantity"}>
+            {product.quantity} left in stock
+          </p>
+          {this.state.productFormVisible ? (
+            <EditProductForm
+              onEditProduct={this.props.onEditProduct}
+              product={product}
+              onToggleEdit={this.handleEditToggle}
+              isEdit={this.state.productFormVisible}
+            />
+          ) : (
+            <div className="actions product-actions">
+              <a
+                className={"button add-to-cart"}>
+                Add to Cart
+              </a>
+              <a className="button edit" onClick={this.handleEditToggle}>
+                Edit
+              </a>
+            </div>
+          )}
 
-        {this.state.productFormVisible ? (
-          <ProductForm
-            title={this.state.title}
-            price={this.state.price}
-            quantity={this.state.quantity}
-            onInputChange={this.handleInputChange}
-            isEdit={true}
-            handleSubmit={this.handleEditSubmit}
-           />
-          ) : ''}
+          <a
+            className="delete-button"
+          >
+            <span>X</span>
+          </a>
+        </div>
       </div>
     );
   }

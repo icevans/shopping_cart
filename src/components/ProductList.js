@@ -9,7 +9,7 @@ const ProductList = (props) => {
         <ToggleableProduct
           key={product.id}
           product={product}
-          handleEditProduct={props.handleEditProduct}
+          onEditProduct={props.onEditProduct}
         />
       ))}
     </div>
