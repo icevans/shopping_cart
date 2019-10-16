@@ -25,8 +25,8 @@ class ToggleableProductForm extends React.Component {
 
   handleCancel = evt => {
     evt.preventDefault();
-    this.setState({ title: "", price: "", quantity: "" });
-    this.handleFormToggle(evt);
+    this.setState({ title: "", price: "", quantity: "", formVisibility: "" });
+    // this.handleFormToggle(evt);
   };
 
   handleSubmit = evt => {
@@ -36,8 +36,8 @@ class ToggleableProductForm extends React.Component {
       price: this.state.price,
       quantity: this.state.quantity
     });
-    this.handleFormToggle(evt);
-    this.setState({ title: "", price: "", quantity: "" });
+    // this.handleFormToggle(evt);
+    this.setState({ title: "", price: "", quantity: "", formVisibility: "" });
   };
 
   render() {
