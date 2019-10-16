@@ -92,7 +92,7 @@ const client = {
         let product = products.find(p => p.id === id);
         let index = products.indexOf(product);
         products.splice(index, 1);
-        resolve();
+        resolve(products);
       } else {
         reject("Invalid URL!");
       }

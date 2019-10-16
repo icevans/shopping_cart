@@ -1,9 +1,8 @@
 import React from 'react';
 
-const Cart = ({cart, products}) => {
-  let total = cart.reduce((total, {productId, quantity}) => {
-    let product = products.find(product => product.id === productId);
-    return total + (product.price * quantity)
+const Cart = (props) => {
+  let total = props.cart.reduce((total, product) => {
+    return total + (product.price * product.quantity)
   }, 0);
 
   total = Math.round(total * 100) / 100;
@@ -19,13 +18,11 @@ const Cart = ({cart, products}) => {
             <th>Price</th>
           </tr>
 
-          {cart.map(({productId, quantity}) => {
-            let product = products.find(product => product.id === productId);
-
+          {props.cart.map((product) => {
              return (
-                <tr>
+                <tr key={product.id}>
                   <td>{product.title}</td>
-                  <td>{quantity}</td>
+                  <td>{product.quantity}</td>
                   <td>{product.price}</td>
                 </tr>
              );
@@ -36,7 +33,12 @@ const Cart = ({cart, products}) => {
           </tr>
           </tbody>
         </table>
-      <a className="button checkout">Checkout</a>
+      <a
+        className="button checkout"
+        onClick={props.onCheckout}
+      >
+       Checkout
+      </a>
     </div>
   )
 };

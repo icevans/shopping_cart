@@ -14,6 +14,25 @@ class ToggleableProduct extends React.Component {
     });
   };
 
+  handleAddToCart = (productId) => {
+    return (evt) => {
+      evt.preventDefault();
+      this.props.onAddToCart(productId);
+    }
+  };
+
+  handleDeleteProduct = (productId) => {
+    return (evt) => {
+      evt.preventDefault();
+      this.props.onDeleteProduct(productId);
+    }
+  };
+
+  handleCancel = (evt) => {
+    evt.preventDefault();
+    this.setState({ productFormVisible: false });
+  };
+
   render() {
     const { product } = this.props;
     return (
@@ -30,11 +49,14 @@ class ToggleableProduct extends React.Component {
               product={product}
               onToggleEdit={this.handleEditToggle}
               isEdit={this.state.productFormVisible}
+              onCancel={this.handleCancel}
             />
           ) : (
             <div className="actions product-actions">
               <a
-                className={"button add-to-cart"}>
+                className={"button add-to-cart"}
+                onClick={this.handleAddToCart(product.id)}
+              >
                 Add to Cart
               </a>
               <a className="button edit" onClick={this.handleEditToggle}>
@@ -45,6 +67,7 @@ class ToggleableProduct extends React.Component {
 
           <a
             className="delete-button"
+            onClick={this.handleDeleteProduct(product.id)}
           >
             <span>X</span>
           </a>

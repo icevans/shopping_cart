@@ -7,6 +7,7 @@ class EditProductForm extends React.Component {
     price: this.props.product.price,
     quantity: this.props.product.quantity
   };
+
   handleEditSubmit = evt => {
     evt.preventDefault();
     this.props.onEditProduct(this.props.product.id, {
@@ -24,10 +25,9 @@ class EditProductForm extends React.Component {
     this.setState({ [fieldName]: fieldValue });
   };
 
-  handleCancel = () => {};
   render() {
     return (
-      <div class="edit-form">
+      <div className="edit-form">
         <h3>Update Product </h3>
         <ProductForm
           onSubmit={this.handleEditSubmit}
@@ -36,7 +36,7 @@ class EditProductForm extends React.Component {
           quantity={this.state.quantity}
           onInputChange={this.handleInputChange}
           isEdit={this.props.isEdit}
-          onCancel={this.handleCancel}
+          onCancel={this.props.onCancel}
         />
       </div>
     );

@@ -7,13 +7,6 @@ describe('ToggleableProductForm', () => {
   let wrapper;
   let callback;
 
-  // onCancel={this.handleCancel}
-  // onInputChange={this.handleInputChange}
-  // onSubmit={this.handleSubmit}
-  // title={this.state.title}
-  // price={this.state.price}
-  // quantity={this.state.quantity}
-  
   beforeEach(() => {
     callback = jest.fn();
     wrapper = shallow(< ToggleableProductForm onSubmit={ callback }/>);
@@ -50,7 +43,7 @@ describe('ToggleableProductForm', () => {
     beforeEach(() => {
       wrapper.instance().handleInputChange({ target: { name: 'title', value: 'iPhone 11' } });
       wrapper.instance().handleInputChange({ target: { name: 'quantity', value: '7' } });
-      wrapper.instance().handleInputChange({ target: { name: 'price', value: '500' } }); 
+      wrapper.instance().handleInputChange({ target: { name: 'price', value: '500' } });
     });
 
     it('handleCancel resets the state', () => {

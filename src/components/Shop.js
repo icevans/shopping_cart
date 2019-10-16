@@ -12,25 +12,37 @@ class Shop extends Component {
     cart: [],
   };
 
-  addToCart = (productId) => { // TODO
-    const itemInCart = this.state.cart.find(item => {
-      return item.productId === productId
-    });
+  handleAddToCart = (productId) => { // TODO
+    const product = this.state.products.find((product) => (product.id === productId));
+    const productInCart = this.state.cart.find(item => (item.id === productId));
 
-    if (itemInCart) {
-      const newCart = this.state.cart.map(item => (item));
-      this.setState(newCart);
-    } else {
+    if (product.quantity < 1) {
+      alert('Out of stock!');
+      return;
     }
+
+    if (productInCart) {
+      const newCart = this.state.cart.map(item => {
+        if (item.id === productId) {
+          return Object.assign({}, item, { quantity: item.quantity + 1 });
+        } else {
+          return item;
+        }
+      });
+      this.setState({ cart: newCart });
+    } else {
+      let newCartItem = { title: product.title, price: product.price, quantity: 1, id: product.id };
+      this.setState({ cart: [...this.state.cart, newCartItem] });
+    }
+
+    product.quantity -= 1;
   }
 
   async componentDidMount() {
     try {
       let products = await client.get('/api/products');
 
-      this.setState({
-        products: products,
-      });
+      this.setState({ products: products });
     } catch (error) {
       console.error('Something went wrong!');
       console.error(error);
@@ -62,21 +74,55 @@ class Shop extends Component {
         }
       });
 
+      let newCart = this.state.cart.map(item => {
+        if (item.id === id) {
+          return Object.assign({}, item, {
+        	title: product.title,
+        	price: product.price
+          });
+        } else {
+          return item;
+        }
+      });
+
+      this.setState({ products: updatedProducts, cart: newCart });
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
+    }
+  };
+
+  handleDeleteProduct = async (id) => {
+    try {
+      let updatedProducts = await client.delete(`/api/products/${id}`);
+
       this.setState({ products: updatedProducts });
     } catch (error) {
       console.error('Something went wrong!');
       console.error(error);
     }
-  }
+  };
 
+  handleCheckout = (evt) => {
+    evt.preventDefault();
+    this.setState({ cart: [] });
+  };
 
   render() {
     return (
       <div id="app">
-        <Header cart={this.state.cart} products={this.state.products} />
+        <Header
+          cart={this.state.cart}
+          onCheckout={this.handleCheckout}
+        />
 
         <main>
-          <ProductList products={this.state.products} onEditProduct={this.handleEditProduct} />
+          <ProductList
+            products={this.state.products}
+            onEditProduct={this.handleEditProduct}
+            onAddToCart={this.handleAddToCart}
+            onDeleteProduct={this.handleDeleteProduct}
+          />
 
           <ToggleableProductForm onSubmit={this.handleAddProduct} />
         </main>
