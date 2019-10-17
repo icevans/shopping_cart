@@ -14,9 +14,7 @@ class Cart extends React.Component {
 
   handleCheckout = (evt) => {
     evt.preventDefault();
-    store.dispatch({
-      type: 'CART_CHECKED_OUT',
-    });
+    store.dispatch({ type: 'CART_CHECKED_OUT' });
   };
 
   render() {

@@ -17,7 +17,7 @@ class ToggleableProduct extends React.Component {
     });
   };
 
-  handleAddToCart = (evt) => { // TODO
+  handleAddToCart = (evt) => {
     evt.preventDefault();
 
     if (this.props.product.quantity < 1) {
