@@ -1,6 +1,9 @@
 import React from 'react';
 import EditProductForm from './EditProductForm';
 
+import store from '../store';
+import client from '../lib/client';
+
 class ToggleableProduct extends React.Component {
   state = {
     productFormVisible: false,
@@ -21,10 +24,21 @@ class ToggleableProduct extends React.Component {
     }
   };
 
-  handleDeleteProduct = (productId) => {
-    return (evt) => {
-      evt.preventDefault();
-      this.props.onDeleteProduct(productId);
+  handleDeleteProduct = async (evt) => {
+    evt.preventDefault();
+    try {
+      let id = this.props.product.id;
+      let updatedProducts = await client.delete(`/api/products/${id}`);
+
+      store.dispatch({
+        type: 'PRODUCT_DELETED',
+        payload: {
+          productId: id,
+        },
+      });
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
     }
   };
 
@@ -55,7 +69,7 @@ class ToggleableProduct extends React.Component {
             <div className="actions product-actions">
               <a
                 className={"button add-to-cart"}
-                onClick={this.handleAddToCart(product.id)}
+                onClick={this.handleAddToCart}
               >
                 Add to Cart
               </a>
@@ -67,7 +81,7 @@ class ToggleableProduct extends React.Component {
 
           <a
             className="delete-button"
-            onClick={this.handleDeleteProduct(product.id)}
+            onClick={this.handleDeleteProduct}
           >
             <span>X</span>
           </a>

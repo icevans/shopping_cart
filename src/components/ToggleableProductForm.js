@@ -1,6 +1,9 @@
 import React from "react";
 import ProductForm from "./ProductForm";
 
+import client from '../lib/client';
+import store from '../store';
+
 class ToggleableProductForm extends React.Component {
   state = {
     formVisibility: "",
@@ -26,19 +29,26 @@ class ToggleableProductForm extends React.Component {
   handleCancel = evt => {
     evt.preventDefault();
     this.setState({ title: "", price: "", quantity: "", formVisibility: "" });
-    // this.handleFormToggle(evt);
   };
 
-  handleSubmit = evt => {
+  handleSubmit = async evt => {
     evt.preventDefault();
-    this.props.onSubmit({
-      title: this.state.title,
-      price: this.state.price,
-      quantity: this.state.quantity
-    });
-    // this.handleFormToggle(evt);
-    this.setState({ title: "", price: "", quantity: "", formVisibility: "" });
-  };
+    try {
+      let { formVisibility, ...product } = this.state;
+      let newProduct = await client.post('/api/products', product);
+
+      store.dispatch({
+        type:'PRODUCT_ADDED',
+        payload: {
+          product: newProduct,
+        },
+      });
+      this.setState({ title: "", price: "", quantity: "", formVisibility: "" });
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
+    }
+  }
 
   render() {
     return (

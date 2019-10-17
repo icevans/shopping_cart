@@ -7,6 +7,8 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
     "uuidv4": "^5.0.1"
   },
   "scripts": {

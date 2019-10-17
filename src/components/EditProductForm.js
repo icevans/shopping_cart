@@ -1,6 +1,9 @@
 import React from "react";
 import ProductForm from "./ProductForm";
 
+import client from '../lib/client';
+import store from '../store';
+
 class EditProductForm extends React.Component {
   state = {
     title: this.props.product.title,
@@ -8,13 +11,23 @@ class EditProductForm extends React.Component {
     quantity: this.props.product.quantity
   };
 
-  handleEditSubmit = evt => {
+  handleEditSubmit = async (evt) => {
     evt.preventDefault();
-    this.props.onEditProduct(this.props.product.id, {
-      title: this.state.title,
-      price: this.state.price,
-      quantity: this.state.quantity
-    });
+
+    try {
+      let updatedProduct = await client.put(`/api/products/${this.props.product.id}`, this.state);
+
+      store.dispatch({
+        type: 'PRODUCT_UPDATED',
+        payload: {
+          product: updatedProduct,
+        }
+      });
+    } catch (error) {
+      console.error('Something went wrong!');
+      console.error(error);
+    }
+
     this.props.onToggleEdit(evt);
   };
 
