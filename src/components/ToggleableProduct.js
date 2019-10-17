@@ -1,7 +1,7 @@
 import React from 'react';
 import EditProductForm from './EditProductForm';
 
-import store from '../store';
+import store from '../lib/store';
 import client from '../lib/client';
 
 class ToggleableProduct extends React.Component {
@@ -17,18 +17,25 @@ class ToggleableProduct extends React.Component {
     });
   };
 
-  handleAddToCart = (productId) => {
-    return (evt) => {
-      evt.preventDefault();
-      this.props.onAddToCart(productId);
+  handleAddToCart = (evt) => { // TODO
+    evt.preventDefault();
+
+    if (this.props.product.quantity < 1) {
+      alert('Out of stock!');
+      return;
     }
-  };
+
+    store.dispatch({
+      type: 'PRODUCT_ADDED_TO_CART',
+      payload: { product: this.props.product },
+    });
+  }
 
   handleDeleteProduct = async (evt) => {
     evt.preventDefault();
     try {
       let id = this.props.product.id;
-      let updatedProducts = await client.delete(`/api/products/${id}`);
+      await client.delete(`/api/products/${id}`);
 
       store.dispatch({
         type: 'PRODUCT_DELETED',

@@ -2,7 +2,7 @@ import React from "react";
 import ProductForm from "./ProductForm";
 
 import client from '../lib/client';
-import store from '../store';
+import store from '../lib/store';
 
 class EditProductForm extends React.Component {
   state = {

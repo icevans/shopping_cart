@@ -1,6 +1,3 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
-
 const products = (state = [], action) => {
   switch (action.type) {
     case ('PRODUCTS_RECEIVED'):
@@ -17,20 +14,17 @@ const products = (state = [], action) => {
       return state.concat(action.payload.product);
     case ('PRODUCT_DELETED'):
       return state.filter((product) => product.id !== action.payload.productId);
+    case ('PRODUCT_ADDED_TO_CART'):
+      return state.map((product) => {
+        if (product.id === action.payload.product.id) {
+          return Object.assign({}, product, { quantity: product.quantity - 1 });
+        } else {
+          return product;
+        }
+      });
     default:
       return state;
   }
 };
 
-const cart = (state = [], action) => {
-  return state;
-};
-
-const rootReducer = combineReducers({
-  products,
-  cart
-});
-
-const store = createStore(rootReducer, applyMiddleware(logger));
-
-export default store;
+export default products;
