@@ -34,6 +34,8 @@ const cart = (state = [], action) => {
       });
     case ('CART_CHECKED_OUT'):
       return [];
+    case ('PRODUCT_DELETED'):
+      return state.filter((product) => product.id !== action.payload.productId);
     default:
       return state;
   }
