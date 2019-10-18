@@ -1,37 +1,24 @@
 import React from 'react';
 import ToggleableProduct from './ToggleableProduct';
-
 import store from '../lib/store';
 import client from '../lib/client';
 
 class ProductList extends React.Component {
-  async componentDidMount() {
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
-
-    try {
-      let products = await client.get('/api/products');
-
-      store.dispatch({ type: 'PRODUCTS_RECEIVED', payload: { products } });
-    } catch (error) {
-      console.error('Something went wrong!');
-      console.error(error);
-    }
+  componentDidMount() {
+    this.props.onReceivedProducts();
   }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  };
 
   render() {
     return (
       <div className="product-listing">
         <h2>Products</h2>
-        {store.getState().products.map(product => (
+        {this.props.products.map(product => (
           <ToggleableProduct
             key={product.id}
             product={product}
+            onDeleteProduct={this.props.onDeleteProduct}
+            onEditSubmit={this.props.onEditSubmit}
+            onAddToCart={this.props.onAddToCart}
           />
         ))}
       </div>

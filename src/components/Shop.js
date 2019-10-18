@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Header from './Header.js';
-import ProductList from './ProductList.js';
-import ToggleableProductForm from './ToggleableProductForm.js';
+import ProductListContainer from './ProductListContainer.js';
+import ToggleableProductFormContainer from './ToggleableProductFormContainer.js';
 
 const Shop = () => {
   return (
@@ -10,8 +10,8 @@ const Shop = () => {
       <Header />
 
       <main>
-        <ProductList />
-        <ToggleableProductForm />
+        <ProductListContainer />
+        <ToggleableProductFormContainer />
       </main>
     </div>
   );

@@ -1,65 +1,46 @@
 import React from 'react';
-import store from '../lib/store';
 
-class Cart extends React.Component {
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
-  }
+const Cart = (props) => {
+  let total = props.cart.reduce((total, product) => {
+    return total + (product.price * product.quantity)
+  }, 0);
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  };
+  total = Math.round(total * 100) / 100;
 
-  handleCheckout = (evt) => {
-    evt.preventDefault();
-    store.dispatch({ type: 'CART_CHECKED_OUT' });
-  };
+  return (
+    <div className="cart">
+      <h2>Your Cart</h2>
+      <table className="cart-items">
+        <tbody>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
 
-  render() {
-    let { cart } = store.getState();
-    let total = cart.reduce((total, product) => {
-      return total + (product.price * product.quantity)
-    }, 0);
+          {props.cart.map((product) => {
+             return (
+                <tr key={product.id}>
+                  <td>{product.title}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.price}</td>
+                </tr>
+             );
+          })}
 
-    total = Math.round(total * 100) / 100;
-
-    return (
-      <div className="cart">
-        <h2>Your Cart</h2>
-        <table className="cart-items">
-          <tbody>
-            <tr>
-              <th>Item</th>
-              <th>Quantity</th>
-              <th>Price</th>
-            </tr>
-
-            {cart.map((product) => {
-               return (
-                  <tr key={product.id}>
-                    <td>{product.title}</td>
-                    <td>{product.quantity}</td>
-                    <td>{product.price}</td>
-                  </tr>
-               );
-            })}
-
-            <tr>
-              <td colSpan="3" className="total">Total: {total}</td>
-            </tr>
-            </tbody>
-          </table>
-        <a
-          className="button checkout"
-          onClick={this.handleCheckout}
-        >
-         Checkout
-        </a>
-      </div>
-    )
-  };
+          <tr>
+            <td colSpan="3" className="total">Total: {total}</td>
+          </tr>
+          </tbody>
+        </table>
+      <a
+        className="button checkout"
+        onClick={props.onCheckout}
+      >
+       Checkout
+      </a>
+    </div>
+  )
 };
 
 export default Cart;

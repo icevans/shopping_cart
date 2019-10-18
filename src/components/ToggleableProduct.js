@@ -1,9 +1,6 @@
 import React from 'react';
 import EditProductForm from './EditProductForm';
 
-import store from '../lib/store';
-import client from '../lib/client';
-
 class ToggleableProduct extends React.Component {
   state = {
     productFormVisible: false,
@@ -25,28 +22,13 @@ class ToggleableProduct extends React.Component {
       return;
     }
 
-    store.dispatch({
-      type: 'PRODUCT_ADDED_TO_CART',
-      payload: { product: this.props.product },
-    });
+    this.props.onAddToCart(this.props.product);
   }
 
   handleDeleteProduct = async (evt) => {
     evt.preventDefault();
-    try {
-      let id = this.props.product.id;
-      await client.delete(`/api/products/${id}`);
-
-      store.dispatch({
-        type: 'PRODUCT_DELETED',
-        payload: {
-          productId: id,
-        },
-      });
-    } catch (error) {
-      console.error('Something went wrong!');
-      console.error(error);
-    }
+    let id = this.props.product.id;
+    this.props.onDeleteProduct(id);
   };
 
   handleCancel = (evt) => {
@@ -71,6 +53,7 @@ class ToggleableProduct extends React.Component {
               onToggleEdit={this.handleEditToggle}
               isEdit={this.state.productFormVisible}
               onCancel={this.handleCancel}
+              onEditSubmit={this.props.onEditSubmit}
             />
           ) : (
             <div className="actions product-actions">

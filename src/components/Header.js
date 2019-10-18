@@ -1,11 +1,11 @@
 import React from 'react';
-import Cart from './Cart';
+import CartContainer from './CartContainer';
 
 const Header = (props) => {
   return (
     <header>
       <h1>The Shop!</h1>
-      <Cart />
+      <CartContainer />
     </header>
   );
 }
